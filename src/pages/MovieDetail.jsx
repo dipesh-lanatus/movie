@@ -1,13 +1,15 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import useFetch from '../hooks/useFetch';
+import {movies} from  '../../db';
 
 const MovieDetail = () => {
     const { id } = useParams();
-    const url = `${import.meta.env.VITE_BACKEND_ENDPOINT}/${id}`;
-    const { isLoading, isError, data } = useFetch(url);
 
-    data.duration = parseInt(data?.duration);
+    const data = movies.find(movie => movie.id === id);
+    if (!data) return <div className="p-10 text-red-500">Movie not found.</div>;
+    const isLoading = false;
+    const isError = false;
+
     function formatDuration(duration) {
         const hours = Math.floor(duration / 60);
         const mins = duration % 60;

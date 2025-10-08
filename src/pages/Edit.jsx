@@ -15,42 +15,35 @@ const columns = [
 const paginationModel = { page: 0, pageSize: 10 };
 
 const Edit = () => {
-    const { allMovies, isDarkMode } = useContext(MovieContext);
+    const { allMovies, isDarkMode, updateMovie } = useContext(MovieContext);
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        const formatted = allMovies.map((movie) => ({
-            ...movie
-        }));
-        setRows(formatted);
+        setRows(allMovies);
     }, [allMovies]);
 
-
-    const handleProcessRowUpdate = async (newRow) => {
+    const handleProcessRowUpdate = (newRow) => {
         try {
-            await fetch(`${import.meta.env.VITE_BACKEND_ENDPOINT}/${newRow.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newRow)
-            });
-
-            setRows(prevRows =>
-                prevRows.map(row => (row.id === newRow.id ? newRow : row))
-            );
-
+            updateMovie(newRow);
+            setRows(rows.map(row => 
+                row.id === newRow.id ? newRow : row
+            ));
             return newRow;
         } catch (error) {
-            console.error("Update failed:", error);
-            return newRow;
+            console.error('Error updating row:', error);
+            return false;
         }
     };
 
     return (
-
         <div className='min-h-screen p-4'>
-            <Paper sx={{ height: '100%', width: '100%'}}>
+            <Paper 
+                sx={{ 
+                    height: '100%', 
+                    width: '100%',
+                    bgcolor: isDarkMode ? '#1e1e1e' : '#ffffff'
+                }}
+            >
                 <DataGrid
                     rows={rows}
                     columns={columns}
@@ -58,8 +51,16 @@ const Edit = () => {
                     initialState={{ pagination: { paginationModel } }}
                     pageSizeOptions={[5, 10]}
                     checkboxSelection
-                    experimentalFeatures={{ newEditingApi: true }}
-                    sx={{ border: 0 }}
+                    sx={{ 
+                        border: 0,
+                        color: isDarkMode ? '#ffffff' : '#000000',
+                        '& .MuiDataGrid-cell': {
+                            color: isDarkMode ? '#ffffff' : '#000000',
+                        },
+                        '& .MuiDataGrid-columnHeaders': {
+                            color: isDarkMode ? '#ffffff' : '#000000',
+                        }
+                    }}
                 />
             </Paper>
         </div>

@@ -1,5 +1,4 @@
-{
-  "movies": [
+export const movies = [
     {
       "id": "1",
       "title": "The Shawshank Redemption",
@@ -519,4 +518,3 @@
       "ytTrailerLink": "https://www.youtube.com/watch?v=zwhP5b4tD6g"
     }
   ]
-}
