@@ -5,10 +5,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import Button from '../components/Button'
 
 const Home = () => {
     const navigate = useNavigate();
-    const { isLoading, isError, movies, setMovies, isDarkMode } = useContext(MovieContext);
+    const { isLoading, isError, movies, setMovies, theme } = useContext(MovieContext);
 
     function formatDuration(minutes) {
         const hours = Math.floor(minutes / 60);
@@ -35,20 +36,14 @@ const Home = () => {
     if (isError) return <div className="p-10 text-red-500">{isError.message}</div>;
 
     return (
-        <div>
-            <div className="flex gap-5 justify-center mt-6">
-                <button
-                    onClick={() => sortHandler('asc')}
-                    className="p-2 px-6 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
-                >
+        <div className='dark:bg-gray-900 dark:text-white p-5'>
+            <div className="flex gap-5 justify-center">
+                <Button onClick={() => sortHandler('asc')}>
                     A-Z
-                </button>
-                <button
-                    onClick={() => sortHandler('desc')}
-                    className="p-2 px-6 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
-                >
+                </Button>
+                <Button onClick={() => sortHandler('desc')}>
                     Z-A
-                </button>
+                </Button>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
@@ -59,8 +54,8 @@ const Home = () => {
                         sx={{
                             maxWidth: 345,
                             cursor: 'pointer',
-                            backgroundColor: isDarkMode ? '#1F2937' : 'white',
-                            color: isDarkMode ? 'white' : 'black',
+                            backgroundColor: theme === 'dark' ? '#1F2932' : 'white',
+                            color: theme === 'dark' ? 'white' : 'black',
                         }}
                     >
                         <CardMedia
@@ -83,7 +78,7 @@ const Home = () => {
                             </Typography>
                         </CardContent>
                     </Card>
-                )) :<p className='text-center text-2xl'>No movies found</p>}
+                )) : <p className='text-center text-2xl'>No movies found</p>}
             </div>
         </div>
     );

@@ -1,12 +1,12 @@
-import  { useContext, useEffect, useState } from 'react'
-import SearchIcon from '@mui/icons-material/Search';
-import { alpha, styled } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import ContrastIcon from '@mui/icons-material/Contrast';
-import { MovieContext } from '../context/movie.context';
-import { useNavigate } from 'react-router-dom';
-
+import { useContext, useEffect, useState } from 'react'
+import SearchIcon from '@mui/icons-material/Search'
+import { alpha, styled } from '@mui/material/styles'
+import InputBase from '@mui/material/InputBase'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import ContrastIcon from '@mui/icons-material/Contrast'
+import { MovieContext } from '../context/movie.context'
+import { useNavigate } from 'react-router-dom'
+import Button from '../components/Button'
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -21,7 +21,8 @@ const Search = styled('div')(({ theme }) => ({
         marginLeft: theme.spacing(1),
         width: 'auto',
     },
-}));
+}))
+
 const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
@@ -30,13 +31,13 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-}));
+}))
+
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     width: '100%',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         [theme.breakpoints.up('sm')]: {
@@ -46,52 +47,61 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
             },
         },
     },
-}));
+}))
 
 const Navbar = () => {
     const navigate = useNavigate()
-    const { allMovies, setMovies, isDarkMode, setIsDarkMode } = useContext(MovieContext)
-    const [searchName, setSearchName] = useState("")
-
+    const { allMovies, setMovies, theme, setTheme } = useContext(MovieContext)
+    const [searchName, setSearchName] = useState('')
 
     useEffect(() => {
-        if (!searchName) {
-            setMovies(allMovies);
-        } else {
-            const result = allMovies.filter(item =>
+        if (!searchName) setMovies(allMovies)
+        else {
+            const result = allMovies.filter((item) =>
                 item.title.toLowerCase().includes(searchName.toLowerCase())
-            );
-            setMovies(result);
+            )
+            setMovies(result)
         }
-    }, [searchName, allMovies]);
+    }, [searchName, allMovies])
 
+    const toggleTheme = () => {
+        setTheme(theme === 'dark' ? 'light' : 'dark')
+    }
 
-    const toggleDarkMode = () => {
-        setIsDarkMode((prevMode) => !prevMode);
-    };
     return (
-        <div className='navbar w-full flex items-center justify-between p-4 bg-blue-500'>
-            <h1>Movie App</h1>
-            <Search>
-                <SearchIconWrapper>
-                    <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                    onChange={(e) => setSearchName(e.target.value)}
-                    placeholder="Search…"
-                    inputProps={{ 'aria-label': 'search' }}
-                />
-            </Search>
-            <div className='space-x-4'>
-                <button onClick={() => navigate('/')} className='bg-gray-700 hover:bg-gray-800 text-white p-1.5 px-5 rounded-md'>Home</button>
-                <button onClick={() => navigate('/edit')} className='bg-gray-700 hover:bg-gray-800 text-white p-1.5 px-5 rounded-md'>Edit</button>
-                {isDarkMode ? (
-                    <button onClick={toggleDarkMode}><DarkModeIcon /></button>
-                ) : (
-                    <button onClick={toggleDarkMode} ><ContrastIcon /></button>
-                )}
+        <div className="navbar w-full flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between p-4 dark:text-white bg-blue-500 dark:bg-blue-900 transition-colors">
+            {/* Logo / Title */}
+            <h1 className="text-xl font-bold text-white dark:text-gray-100 text-center sm:text-left">
+                Movie App
+            </h1>
+
+            {/* Search bar */}
+            <div className="w-full sm:w-auto flex justify-center sm:justify-start">
+                <Search className="w-4/5 sm:w-auto">
+                    <SearchIconWrapper>
+                        <SearchIcon />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                        onChange={(e) => setSearchName(e.target.value)}
+                        placeholder="Search…"
+                        inputProps={{ 'aria-label': 'search' }}
+                    />
+                </Search>
             </div>
 
+            {/* Buttons */}
+            <div className="flex flex-wrap justify-center sm:justify-end gap-3">
+                <Button onClick={() => navigate('/')}>
+                    Home
+                </Button>
+                <Button onClick={() => navigate('/edit')}>
+                    Edit
+                </Button>
+
+                <Button onClick={toggleTheme}>
+                    {theme === 'dark' ? <ContrastIcon /> : <DarkModeIcon />}
+                </Button>
+            </div>
         </div>
     )
 }

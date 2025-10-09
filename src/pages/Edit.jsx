@@ -15,7 +15,7 @@ const columns = [
 const paginationModel = { page: 0, pageSize: 10 };
 
 const Edit = () => {
-    const { allMovies, isDarkMode, updateMovie } = useContext(MovieContext);
+    const { allMovies, theme, updateMovie } = useContext(MovieContext);
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const Edit = () => {
     const handleProcessRowUpdate = (newRow) => {
         try {
             updateMovie(newRow);
-            setRows(rows.map(row => 
+            setRows(rows.map(row =>
                 row.id === newRow.id ? newRow : row
             ));
             return newRow;
@@ -36,12 +36,11 @@ const Edit = () => {
     };
 
     return (
-        <div className='min-h-screen p-4'>
-            <Paper 
-                sx={{ 
-                    height: '100%', 
+        <div className='min-h-screen p-4 dark:bg-gray-900 drak:text-white'>
+            <Paper
+                sx={{
+                    height: '100%',
                     width: '100%',
-                    bgcolor: isDarkMode ? '#1e1e1e' : '#ffffff'
                 }}
             >
                 <DataGrid
@@ -51,15 +50,22 @@ const Edit = () => {
                     initialState={{ pagination: { paginationModel } }}
                     pageSizeOptions={[5, 10]}
                     checkboxSelection
-                    sx={{ 
+                    sx={{
                         border: 0,
-                        color: isDarkMode ? '#ffffff' : '#000000',
-                        '& .MuiDataGrid-cell': {
-                            color: isDarkMode ? '#ffffff' : '#000000',
+                        // footer / pagination
+                        '& .MuiDataGrid-footerContainer': {
+                            backgroundColor: theme === 'dark' ? '#1f2937' : '#f5f5f5',
+                            color: theme === 'dark' ? 'white' : 'black',
                         },
-                        '& .MuiDataGrid-columnHeaders': {
-                            color: isDarkMode ? '#ffffff' : '#000000',
-                        }
+                        '& .MuiTablePagination-root, & .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows': {
+                            color: theme === 'dark' ? 'white' : 'black',
+                        },
+
+                        // rows
+                        '& .MuiDataGrid-cell': {
+                            color: theme === 'dark' ? 'white' : 'black',
+                            backgroundColor: theme === 'dark' ? '#1f2937' : '#f5f5f5',
+                        },
                     }}
                 />
             </Paper>

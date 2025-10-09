@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import {movies} from  '../../db';
+import Button from '../components/Button';
 
 const MovieDetail = () => {
     const { id } = useParams();
@@ -24,10 +25,9 @@ const MovieDetail = () => {
     if (isError || !data) return <div className="p-10 text-red-500">Failed to load movie details.</div>;
 
     return (
-        <div className="p-6 sm:p-10 min-h-screen w-full">
+        <div className="p-6 sm:p-10 min-h-screen w-full dark:bg-gray-900 dark:text-white">
             <h1 className="text-3xl sm:text-5xl font-semibold text-center">{data.title}</h1>
 
-            {/* Responsive flex layout */}
             <div className="flex flex-col md:flex-row gap-6 mt-10">
 
                 {/* Left: Poster */}
@@ -46,7 +46,6 @@ const MovieDetail = () => {
                         <span className="font-semibold ">Director:</span> {data.director}
                     </div>
 
-                    {/* Cast */}
                     <div>
                         <h2 className="font-semibold mb-1">Cast:</h2>
                         <ul className="list-disc list-inside pl-2">
@@ -56,7 +55,6 @@ const MovieDetail = () => {
                         </ul>
                     </div>
 
-                    {/* Duration & Release */}
                     <div className="flex flex-col sm:flex-row gap-2">
                         <div>
                             <span className="font-semibold ">Duration:</span> {formatDuration(data.duration)}
@@ -66,7 +64,6 @@ const MovieDetail = () => {
                         </div>
                     </div>
 
-                    {/* Genre */}
                     <div>
                         <h2 className="font-semibold mb-1">Genre:</h2>
                         <ul className="list-disc list-inside  pl-2">
@@ -76,13 +73,15 @@ const MovieDetail = () => {
                         </ul>
                     </div>
 
-                    {/* Trailer Button */}
-                    <button
+                    <Button onClick={() => handler(data.ytTrailerLink)}>
+                        See Trailer
+                    </Button>
+                    {/* <button
                         className="bg-blue-300 hover:bg-blue-400 py-2 px-4 rounded mt-2 w-fit"
                         onClick={() => handler(data.ytTrailerLink)}
                     >
                         See Trailer
-                    </button>
+                    </button> */}
                 </div>
 
             </div>

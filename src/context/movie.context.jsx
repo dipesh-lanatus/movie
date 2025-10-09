@@ -4,11 +4,7 @@ import { movies as initialMovies } from '../../db';
 export const MovieContext = createContext();
 
 export const MovieProvider = ({ children }) => {
-    const [isDarkMode, setIsDarkMode] = useState(() => {
-        const stored = localStorage.getItem('darkMode');
-        return stored ? JSON.parse(stored) : false;
-    });
-    
+    const [theme, setTheme] = useState("light");
     const [movies, setMovies] = useState([]);
     const [allMovies, setAllMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -41,11 +37,21 @@ export const MovieProvider = ({ children }) => {
     }, [allMovies]);
 
     useEffect(() => {
-        localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
-    }, [isDarkMode]);
+        const saved = localStorage.getItem("theme");
+        if (saved) setTheme(saved);
+    }, []);
+
+    useEffect(() => {
+        if (theme === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+        localStorage.setItem("theme", theme);
+    }, [theme]);
 
     const updateMovie = (updatedMovie) => {
-        const newMovies = allMovies.map(movie => 
+        const newMovies = allMovies.map(movie =>
             movie.id === updatedMovie.id ? updatedMovie : movie
         );
         setAllMovies(newMovies);
@@ -55,8 +61,8 @@ export const MovieProvider = ({ children }) => {
     return (
         <MovieContext.Provider
             value={{
-                setIsDarkMode,
-                isDarkMode,
+                theme,
+                setTheme,
                 isLoading,
                 isError,
                 movies,
