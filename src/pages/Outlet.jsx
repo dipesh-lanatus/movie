@@ -1,8 +1,8 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
+import {Navbar} from '../components/Navbar'
 import { Outlet } from 'react-router-dom'
 
-const OutletComponent = () => {
+export const OutletComponent = () => {
   return (
     <div>
         <Navbar/>
@@ -10,5 +10,3 @@ const OutletComponent = () => {
     </div>
   )
 }
-
-export default OutletComponent

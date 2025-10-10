@@ -14,7 +14,7 @@ const columns = [
 
 const paginationModel = { page: 0, pageSize: 10 };
 
-const Edit = () => {
+export const Edit = () => {
     const { allMovies, theme, updateMovie } = useContext(MovieContext);
     const [rows, setRows] = useState([]);
 
@@ -72,5 +72,3 @@ const Edit = () => {
         </div>
     );
 };
-
-export default Edit;

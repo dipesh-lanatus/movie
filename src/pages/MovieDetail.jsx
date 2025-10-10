@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import {movies} from  '../../db';
-import Button from '../components/Button';
+import {Button} from '../components/Button';
 
-const MovieDetail = () => {
+export const MovieDetail = () => {
     const { id } = useParams();
 
     const data = movies.find(movie => movie.id === id);
@@ -76,17 +76,9 @@ const MovieDetail = () => {
                     <Button onClick={() => handler(data.ytTrailerLink)}>
                         See Trailer
                     </Button>
-                    {/* <button
-                        className="bg-blue-300 hover:bg-blue-400 py-2 px-4 rounded mt-2 w-fit"
-                        onClick={() => handler(data.ytTrailerLink)}
-                    >
-                        See Trailer
-                    </button> */}
                 </div>
 
             </div>
         </div>
     );
 };
-
-export default MovieDetail;

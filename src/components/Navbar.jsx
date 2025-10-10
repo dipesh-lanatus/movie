@@ -6,7 +6,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode'
 import ContrastIcon from '@mui/icons-material/Contrast'
 import { MovieContext } from '../context/movie.context'
 import { useNavigate } from 'react-router-dom'
-import Button from '../components/Button'
+import { Button } from '../components/Button'
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -49,17 +49,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }))
 
-const Navbar = () => {
+export const Navbar = () => {
     const navigate = useNavigate()
     const { allMovies, setMovies, theme, setTheme } = useContext(MovieContext)
     const [searchName, setSearchName] = useState('')
 
+    const normalize = (str) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+
     useEffect(() => {
         if (!searchName) setMovies(allMovies)
         else {
-            const result = allMovies.filter((item) =>
-                item.title.toLowerCase().includes(searchName.toLowerCase())
-            )
+            navigate('/')
+            const result = allMovies.filter(item =>
+                normalize(item.title).includes(normalize(searchName))
+            );
             setMovies(result)
         }
     }, [searchName, allMovies])
@@ -105,5 +108,3 @@ const Navbar = () => {
         </div>
     )
 }
-
-export default Navbar

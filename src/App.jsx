@@ -1,12 +1,12 @@
-import Home from './pages/Home'
-import Edit from './pages/Edit'
+import {Home} from './pages/Home'
+import {Edit} from './pages/Edit'
 import { Route, Routes } from 'react-router-dom'
-import MovieDetail from './pages/MovieDetail'
-import OutletComponent from './pages/Outlet'
+import {MovieDetail} from './pages/MovieDetail'
+import {OutletComponent} from './pages/Outlet'
 import { useContext, useEffect } from 'react'
 import { MovieContext } from './context/movie.context'
 
-function App() {
+export function App() {
 
   return (
     <div>
@@ -20,5 +20,3 @@ function App() {
     </div>
   )
 }
-
-export default App

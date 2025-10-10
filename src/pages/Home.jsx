@@ -5,9 +5,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-import Button from '../components/Button'
+import {Button} from '../components/Button'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
-const Home = () => {
+export const Home = () => {
     const navigate = useNavigate();
     const { isLoading, isError, movies, setMovies, theme } = useContext(MovieContext);
 
@@ -39,10 +41,10 @@ const Home = () => {
         <div className='dark:bg-gray-900 dark:text-white p-5'>
             <div className="flex gap-5 justify-center">
                 <Button onClick={() => sortHandler('asc')}>
-                    A-Z
+                   <ArrowUpwardIcon/>
                 </Button>
                 <Button onClick={() => sortHandler('desc')}>
-                    Z-A
+                    <ArrowDownwardIcon/>
                 </Button>
             </div>
 
@@ -83,5 +85,3 @@ const Home = () => {
         </div>
     );
 };
-
-export default Home;

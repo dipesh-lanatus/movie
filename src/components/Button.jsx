@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Button = ({ children, onClick }) => {
+export const Button = ({ children, onClick }) => {
     return (
         <div className="w-full sm:w-auto">
             <button
@@ -22,4 +22,3 @@ const Button = ({ children, onClick }) => {
     )
 }
 
-export default Button
