@@ -12,14 +12,10 @@ export const MovieProvider = ({ children }) => {
 
     useEffect(() => {
         try {
-            const storedMovies = localStorage.getItem('movies');
-            if (storedMovies) {
-                const parsedMovies = JSON.parse(storedMovies);
-                setAllMovies(parsedMovies);
-                setMovies(parsedMovies);
-            } else {
-                setAllMovies(initialMovies);
-                setMovies(initialMovies);
+            const storedMovies = JSON.parse(localStorage.getItem('movies')) || initialMovies;
+            setAllMovies(storedMovies);
+            setMovies(storedMovies);
+            if (!localStorage.getItem('movies')) {
                 localStorage.setItem('movies', JSON.stringify(initialMovies));
             }
         } catch (error) {
@@ -34,21 +30,10 @@ export const MovieProvider = ({ children }) => {
         if (allMovies.length > 0) {
             localStorage.setItem('movies', JSON.stringify(allMovies));
         }
-    }, [allMovies]);
 
-    useEffect(() => {
-        const saved = localStorage.getItem("theme");
-        if (saved) setTheme(saved);
-    }, []);
-
-    useEffect(() => {
-        if (theme === "dark") {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
+        document.documentElement.classList.toggle('dark', theme === 'dark');
         localStorage.setItem("theme", theme);
-    }, [theme]);
+    }, [allMovies, theme]);
 
     const updateMovie = (updatedMovie) => {
         const newMovies = allMovies.map(movie =>
